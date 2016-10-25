@@ -25,26 +25,28 @@ void TF1::EvaluateInIsolation(const Phrase &source
 {
   //  targetPhrase.SetRuleSource(source);
   const PhraseProperty *property = targetPhrase.GetProperty("Topics");
+  //std::cout << *property;
   if (property == NULL) {
-      std::cout<<"Null Property111111!"<<endl;
+      //std::cout<<"Null Property111111!"<<endl;
     return;
   }
-
+}
+/*
 //  const TopicsPhraseProperty *tProp = static_cast<const TopicsPhraseProperty*>(property);
 //  std::cout<<"Here1"<<std::endl;
 //  std::cout << *tProp;
 //  scoreBreakdown.PlusEquals(this,0.0001);
 //  std::cout<<"Here2"<<std::endl;
   // dense scores
-  /*vector<float> newScores(m_numScoreComponents);
-  newScores[0] = 1.5;
-  newScores[1] = 0.3;
-  scoreBreakdown.PlusEquals(this, newScores);*/
+//  vector<float> newScores(m_numScoreComponents);
+//  newScores[0] = 1.5;
+//  newScores[1] = 0.3;
+//  scoreBreakdown.PlusEquals(this, newScores);
 
   // sparse scores
   //scoreBreakdown.PlusEquals(this, "sparse-name", 2.4);
 
-}
+}*/
 
 void TF1::EvaluateWithSourceContext(const InputType &input
     , const InputPath &inputPath
@@ -54,15 +56,17 @@ void TF1::EvaluateWithSourceContext(const InputType &input
     , ScoreComponentCollection *estimatedFutureScore) const
 {
     float score;
-    std::cout<<endl<<targetPhrase<<endl;
+   // std::cout<<endl<<targetPhrase<<endl;
   const PhraseProperty *property = targetPhrase.GetProperty("Topics");
   if (property == NULL) {
-      std::cout<<"Null Property!"<<endl;
+     // std::cout<<"Null Property!"<<endl;
     return;
   }
 
   const TopicsPhraseProperty *tProp = static_cast<const TopicsPhraseProperty*>(property);
   std::vector<float> phrase_topics= tProp->GetTopics();
+  int numT=tProp->GetnumTopics();
+ // std::cout<<"Number of Topics Detected:"<<numT<<std::endl;
   std::vector<float> sentence_topics;
   //=new vector<float>*;
 
@@ -78,14 +82,14 @@ void TF1::EvaluateWithSourceContext(const InputType &input
             {
                 sentence_topics.push_back(atof((topicid_prob[2*i+1]).c_str()));
             }
-            std::cout<<"Here3"<<std::endl;
+            //std::cout<<"Here3"<<std::endl;
 
     //************Computing Cosine Similarity************
      float norm_a,norm_b,ab,aj,bj;
      norm_a=0;
      norm_b=0;
      ab=0;
-    for (int j=0;j<50;j++)
+    for (int j=0;j<numT;j++)
     {
         aj=sentence_topics[j];
         bj=phrase_topics[j];
@@ -97,7 +101,7 @@ void TF1::EvaluateWithSourceContext(const InputType &input
     norm_b=sqrt(norm_b);
 
     score=ab/(norm_a*norm_b);
-    std::cout<<score<<std::endl;
+    //std::cout<<score<<std::endl;
     scoreBreakdown.PlusEquals(this,score);
 
   /*if (targetPhrase.GetNumNonTerminals()) {
