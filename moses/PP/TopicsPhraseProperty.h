@@ -53,6 +53,11 @@ public:
       return Topics;
     }
 
+    int GetnumTopics() const
+    {
+      return numTopics;
+    }
+
   virtual const std::string *GetValueString() const {
     UTIL_THROW2("TopicsPhraseProperty: value string not available in this phrase property");
     return NULL;
@@ -62,6 +67,7 @@ protected:
 
   //float m_sourceMarginal, m_targetMarginal, m_jointCount;
   std::vector<float> Topics;
+  int numTopics;
 
 };
 
