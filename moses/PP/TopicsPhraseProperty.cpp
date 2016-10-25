@@ -10,10 +10,12 @@ void TopicsPhraseProperty::ProcessValue(const std::string &value)
 {
 	std::istringstream tokenizer(value);
 	float temp;
-
-	for (int t=0;t<50;t++)
+    int t=0;
+    //for (int t=0;t<50;t++)
+    while((tokenizer >> temp))
 	{
-		tokenizer >> temp;
+        t++;
+        //tokenizer >> temp;
 		Topics.push_back(temp);
 		/*if (! temp) 
 		{ 
@@ -21,13 +23,16 @@ void TopicsPhraseProperty::ProcessValue(const std::string &value)
 			assert(temp < 1  && temp > 0);
 		}*/
 	}
+    numTopics=t;
+    //std::cout << "Here in PP t is "<<t<<std::endl;
 };
 
 std::ostream& operator<<(std::ostream &out, const TopicsPhraseProperty &obj)
 {
 	std::vector<float> ttoopps=obj.GetTopics();
 	out << "Topic property=";
-	for ( int j =0; j< 50 ;j++)
+    int tt=obj.GetnumTopics();
+    for ( int j =0; j< tt ;j++)
 	{
 			out<< ttoopps[j]<<" ";
 	}
